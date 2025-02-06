@@ -1,4 +1,5 @@
 import { Component } from "react";
+import "./App.css";
 class App extends Component {
   constructor() {
     super();
@@ -17,7 +18,7 @@ class App extends Component {
   componentDidMount() {
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => response.json())
-      .then((users) => this.setState({ users }));
+      .then((users) => this.setState(() => ({ users })));
   }
 
   render() {
@@ -31,7 +32,8 @@ class App extends Component {
           }}
         >
           <h1>
-            Hello am {this.state.name} my position is {this.state.position}
+            Hello am {this.state.users[this.state.users.length - 1]?.name} my
+            position is {this.state.position}
           </h1>
           <button
             onClick={() => {
@@ -46,8 +48,29 @@ class App extends Component {
           </button>
         </div>
         <div
-          style={{ padding: "20px", margin: "20px", backgroundColor: "gray" }}
+          style={{
+            padding: "32px",
+            margin: "24px",
+            backgroundColor: "skyblue",
+            borderRadius: "20px",
+            fontSize: "1rem",
+          }}
         >
+          <label>
+            Search Users:
+            <input
+              type="search"
+              className="search-box"
+              onChange={(event) => {
+                let filteredUsers = [];
+                const searchValue = event.target.value;
+                filteredUsers = this.state.users.filter((user) =>
+                  user.name.includes(searchValue)
+                );
+                this.setState(() => ({ users: filteredUsers }));
+              }}
+            />
+          </label>
           {this.state.users.map((user) => {
             return (
               <h2 key={user.id}>

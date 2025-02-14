@@ -8,6 +8,7 @@ class App extends Component {
       position: "UI developer",
       bgColor: "cyan",
       users: [],
+      searchField: "",
     };
   }
   /* React life cycle methods are inherited from main Component Class of React*/
@@ -18,22 +19,35 @@ class App extends Component {
   componentDidMount() {
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => response.json())
-      .then((users) => this.setState(() => ({ users })));
+      .then((users) =>
+        this.setState(
+          () => ({ users }),
+          () => console.log(users)
+        )
+      );
   }
 
+  handleChange = (event) => {
+    this.setState(() => ({ searchField: event.target.value }));
+  };
+
   render() {
+    let filteredUsers = [];
+    const { position, bgColor, users, searchField } = this.state || {}; //destructing
+    filteredUsers = users?.filter(({ name }) =>
+      name.toLowerCase().includes(searchField.toLowerCase())
+    );
     return (
       <>
         <div
           style={{
             padding: "20px",
             margin: "20px",
-            backgroundColor: `${this.state.bgColor}`,
+            backgroundColor: `${bgColor}`,
           }}
         >
           <h1>
-            Hello am {this.state.users[this.state.users.length - 1]?.name} my
-            position is {this.state.position}
+            Hello am {users[users.length - 1]?.name} my position is {position}
           </h1>
           <button
             onClick={() => {
@@ -61,23 +75,25 @@ class App extends Component {
             <input
               type="search"
               className="search-box"
-              onChange={(event) => {
-                let filteredUsers = [];
-                const searchValue = event.target.value;
-                filteredUsers = this.state.users.filter((user) =>
-                  user.name.includes(searchValue)
-                );
-                this.setState(() => ({ users: filteredUsers }));
-              }}
+              onChange={this.handleChange}
             />
           </label>
-          {this.state.users.map((user) => {
-            return (
-              <h2 key={user.id}>
-                {user.id}. {user.name}
-              </h2>
-            );
-          })}
+          <ul className="list-container">
+            {filteredUsers.map(({ id, name, email }) => {
+              return (
+                <div key={id}>
+                  <li>
+                    <span>Name: </span>
+                    {name}
+                    <p>
+                      <span>Email: </span>
+                      {email}
+                    </p>
+                  </li>
+                </div>
+              );
+            })}
+          </ul>
         </div>
       </>
     );

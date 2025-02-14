@@ -5,4 +5,18 @@
   padding: 0.5rem;
   font-size: 1.25rem;
   margin-left: 10px;
+  margin-bottom: 2rem;
+}
+
+.list-container {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  li {
+    padding: 1rem;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    background-color: white;
+    font-size: 1.25rem;
+  }
 }

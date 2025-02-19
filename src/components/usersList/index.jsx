@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Component } from "react";
+import "./users-list.css";
 
 class UsersList extends Component {
   render() {

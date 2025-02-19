@@ -1,13 +1,11 @@
 import { Component } from "react";
-import UsersList from "./components/UsersList/UsersList";
+import UsersList from "./components/usersList";
+import SearchBox from "./components/search-box";
 import "./App.css";
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      name: "Daniel",
-      position: "UI developer",
-      bgColor: "cyan",
       users: [],
       searchField: "",
     };
@@ -29,34 +27,13 @@ class App extends Component {
 
   render() {
     let filteredUsers = [];
-    const { position, bgColor, users, searchField } = this.state || {}; //destructing
+    const { users, searchField } = this.state || {}; //destructing
     filteredUsers = users?.filter(({ name }) =>
       name.toLowerCase().includes(searchField.toLowerCase())
     );
     return (
       <>
-        <div
-          style={{
-            padding: "20px",
-            margin: "20px",
-            backgroundColor: `${bgColor}`,
-          }}
-        >
-          <h1>
-            Hello am {users[users.length - 1]?.name} my position is {position}
-          </h1>
-          <button
-            onClick={() => {
-              this.setState({
-                name: "Madhu",
-                position: "Software Developer",
-                bgColor: "yellow",
-              });
-            }}
-          >
-            Change Name
-          </button>
-        </div>
+        <h1>Users List</h1>
         <div
           style={{
             padding: "32px",
@@ -66,14 +43,12 @@ class App extends Component {
             fontSize: "1rem",
           }}
         >
-          <label>
-            Search Users:
-            <input
-              type="search"
-              className="search-box"
-              onChange={this.handleChange}
-            />
-          </label>
+          <SearchBox
+            searchLable="Search Users:"
+            onChangeHandler={this.handleChange}
+            placeHolder="Enter a search value"
+            customClass="search-input-style"
+          />
           <UsersList filteredUsers={filteredUsers} />
         </div>
       </>

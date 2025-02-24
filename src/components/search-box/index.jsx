@@ -1,8 +1,12 @@
 /* eslint-disable react/prop-types */
 import "./search-box.css";
 
-const SearchBox = ({ onChangeHandler, placeHolder, customClass, searchLable }) => {
-  
+const SearchBox = ({
+  onChangeHandler,
+  placeHolder,
+  customClass,
+  searchLable,
+}) => {
   return (
     <div className="searchContainer">
       <label>

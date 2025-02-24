@@ -2,3 +2,8 @@ h1 {
   display: flex;
   justify-content: center;
 }
+.error {
+  color: red;
+  font-size: 2rem;
+  text-align: center;
+}

@@ -1,32 +1,27 @@
 /* eslint-disable react/prop-types */
-import { Component } from "react";
 import "./users-list.css";
 
-class UsersList extends Component {
-  render() {
-    const { filteredUsers } = this.props;
-
-    return (
-      <div>
-        <ul className="list-container">
-          {filteredUsers.map(({ id, name, email }) => {
-            return (
-              <div key={id}>
-                <li>
-                  <span>Name: </span>
-                  {name}
-                  <p>
-                    <span>Email: </span>
-                    {email}
-                  </p>
-                </li>
-              </div>
-            );
-          })}
-        </ul>
-      </div>
-    );
-  }
-}
+const UsersList = ({ filteredUsers }) => {
+  return (
+    <div>
+      <ul className="list-container">
+        {filteredUsers.map(({ id, name, email }) => {
+          return (
+            <div key={id}>
+              <li>
+                <span>Name: </span>
+                {name}
+                <p>
+                  <span>Email: </span>
+                  {email}
+                </p>
+              </li>
+            </div>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
 
 export default UsersList;

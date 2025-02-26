@@ -7,8 +7,8 @@ const App = () => {
   const [users, setUsers] = useState([]);
   const [searchField, setSearchField] = useState("");
   const [fetchError, setFetchError] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(1)
   const fetchUrl = "https://jsonplaceholder.typicode.com/users";
-
 
   const handleChange = (event) => {
     setSearchField(() => event.target.value);
@@ -18,7 +18,7 @@ const App = () => {
     //Error Handling when fetching data from external source
     //try catch and finally
     try {
-      fetch(fetchUrl)
+      fetch(selectedUser ? `${fetchUrl}/${selectedUser}` : fetchUrl)
         .then((response) => {
           console.log(response);
           if (response.status >= 400) {
@@ -33,13 +33,15 @@ const App = () => {
     } finally {
       console.log("fetch implemented");
     }
-  }, []);
+  }, [selectedUser]); // empty array
 
   let filteredUsers = [];
-  filteredUsers = users?.filter(({ name }) =>
-    name.toLowerCase().includes(searchField.toLowerCase())
-  );
-
+  filteredUsers = selectedUser
+    ? [users]
+    : users?.filter(({ name }) =>
+        name.toLowerCase().includes(searchField.toLowerCase())
+      );
+  console.log(filteredUsers);
   return (
     <>
       <h1>Users List</h1>
@@ -54,13 +56,26 @@ const App = () => {
       >
         {!fetchError ? (
           <>
-            <SearchBox
-              searchLable="Search Users:"
-              onChangeHandler={handleChange}
-              placeHolder="Enter a search value"
-              customClass="search-input-style"
-            />
-            <UsersList filteredUsers={filteredUsers} />
+            {selectedUser ? (
+              <div>
+                <input
+                  type="number"
+                  value={selectedUser}
+                  onChange={(event) => setSelectedUser(event.target.value)}
+                />
+                <UsersList filteredUsers={filteredUsers} />
+              </div>
+            ) : (
+              <>
+                <SearchBox
+                  searchLable="Search Users:"
+                  onChangeHandler={handleChange}
+                  placeHolder="Enter a search value"
+                  customClass="search-input-style"
+                />
+                <UsersList filteredUsers={filteredUsers} />
+              </>
+            )}
           </>
         ) : (
           <div className="error">The users list is not available now</div>
